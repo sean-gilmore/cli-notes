@@ -1,6 +1,10 @@
 {
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
   "extends": [
-    "oclif",
-    "oclif-typescript"
-  ]
+    "eslint-config-standard"
+  ],
+  "rules": {
+    "semi": [2, "never"]
+  }
 }

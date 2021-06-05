@@ -1,21 +1,53 @@
-import {Command, flags} from '@oclif/command'
+import { Command, flags } from '@oclif/command'
 
 export default class Create extends Command {
+  static args = [
+    { name: 'type' }
+  ];
+
+  static flags = {
+    project: flags.boolean({char: 'p'}),
+  }
+
+  static availableTypes = {
+    meeting: 'meeting',
+    todo: 'todo',
+  };
+
   static description = 'Creates a new note';
 
   static examples = [
     `$ notes create
 new file created!
     `,
-  ]
+  ];
 
   async run() {
-    const {args, flags} = this.parse(Create)
+    const { args, flags } = this.parse(Create)
+    const project = flags.project;
+    const type = args.type;
 
-    const name = flags.name ?? 'world'
-    this.log(`hello ${name} from ./src/commands/hello.ts`)
-    if (args.file && flags.force) {
-      this.log(`you input --force and --file: ${args.file}`)
+    switch (type) {
+      case Create.availableTypes.meeting:
+        return this.meeting(project);
+      case Create.availableTypes.todo:
+        return this.todo(project);
+      default:
+        return this.default(project);
     }
+  }
+
+  meeting(project: boolean) {
+
+    this.log(`meeting notes ${project}`);
+  }
+
+  todo() {
+
+    this.log('todo notes');
+  }
+
+  default() {
+    this.log('default notes');
   }
 }

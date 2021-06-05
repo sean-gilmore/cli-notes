@@ -4,6 +4,7 @@
   - Should accept an optional "Project" flag
     - Project flag should accept a folder format like `Arcadian/Internal`
     - Should output error if project doesn't exist
+    - if no flag is provided, it should just output to the current directory
   - Should accept a sub type:
     - meeting
       - Should prefix with datetime
