@@ -7,10 +7,10 @@
     - if no flag is provided, it should just output to the current directory
   - Should accept a sub type:
     - meeting
-      - Should prefix with datetime
-      - `# Title` should be "Meeting on XXXX/XX/XX at XX:XX"
-      - `## Attendees` should be added to note with new list started
-      - `## Notes` should be added with nothing started
+      - Should prefix with datetime - DONE
+      - `# Title` should be "Meeting on XXXX/XX/XX at XX:XX" - DONE
+      - `## Attendees` should be added to note with new list started - DONE
+      - `## Notes` should be added with nothing started - DONE
     - todo
       - `# Title` should be "TODO"
     - default
