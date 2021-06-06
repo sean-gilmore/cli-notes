@@ -42,7 +42,6 @@ new file created!
 
   meeting(project: boolean) {
     const today = new Today();
-    const timeString = ``;
     const content = `# Meeting on ${today.date()} at ${today.time()}
 
 ## Attendees
@@ -54,7 +53,7 @@ new file created!
     });
 
     note.write();
-    this.log(`New meeting note created: ${note.fullName}`)
+    this.log(`New meeting note created: ${note.fullName()}`)
   }
 
   todo(project: boolean) {
