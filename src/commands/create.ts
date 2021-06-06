@@ -1,5 +1,6 @@
 import { Command, flags } from '@oclif/command'
 import Note from '../services/Note';
+import Today from '../services/Today';
 
 export default class Create extends Command {
   static args = [
@@ -27,6 +28,7 @@ new file created!
     const { args, flags } = this.parse(Create)
     const project = flags.project;
     const type = args.type;
+    const title = args.title;
 
     switch (type) {
       case Create.availableTypes.meeting:
@@ -39,10 +41,20 @@ new file created!
   }
 
   meeting(project: boolean) {
+    const today = new Today();
+    const timeString = ``;
+    const content = `# Meeting on ${today.date()} at ${today.time()}
 
-    this.log(`meeting notes ${project}`);
-    const note = new Note({fileName: 'test', extension: 'md'});
+## Attendees
+
+## Notes`;
+
+    const note = new Note({
+      fileName: 'test', extension: 'md', content: content
+    });
+
     note.write();
+    this.log(`New meeting note created: ${note.fullName}`)
   }
 
   todo(project: boolean) {
