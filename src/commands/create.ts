@@ -1,4 +1,4 @@
-import { Command, flags } from '@oclif/command'
+import { Command, flags } from '@oclif/command';
 import Note from '../services/Note';
 import Today from '../services/Today';
 
@@ -24,23 +24,23 @@ new file created!
     `,
   ];
 
-  async run() {
-    const { args, flags } = this.parse(Create)
+  async run(): Promise<void> {
+    const { args, flags } = this.parse(Create);
     const project = flags.project;
     const type = args.type;
     const title = args.title;
 
     switch (type) {
       case Create.availableTypes.meeting:
-        return this.meeting(project);
+        return this.meeting(project, title);
       case Create.availableTypes.todo:
-        return this.todo(project);
+        return this.todo(project, title);
       default:
-        return this.default(project);
+        return this.default(project, title);
     }
   }
 
-  meeting(project: boolean) {
+  meeting(project: boolean, title: string): void {
     const today = new Today();
     const content = `# Meeting on ${today.date()} at ${today.time()}
 
@@ -53,15 +53,16 @@ new file created!
     });
 
     note.write();
-    this.log(`New meeting note created: ${note.fullName()}`)
+
+    this.log(`New meeting note created: ${note.fullName()}`);
   }
 
-  todo(project: boolean) {
+  todo(project: boolean, title: string): void {
 
     this.log('todo notes');
   }
 
-  default(project: boolean) {
+  default(project: boolean, title: string): void {
     this.log('default notes');
     // fs.write('./test');
   }

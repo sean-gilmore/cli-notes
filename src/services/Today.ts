@@ -5,8 +5,9 @@ export default class Today {
   hour: string;
   minute: string;
 
-  constructor() {
-    const date = new Date();
+  constructor(time?: string) {
+    const timeString = time ?? '';
+    const date = new Date(timeString);
 
     this.day = ("0" + date.getDate()).slice(-2);
 
