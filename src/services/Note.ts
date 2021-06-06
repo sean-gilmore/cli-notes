@@ -21,16 +21,15 @@ export default class Note {
   }
 
   write(): void {
-    fs.writeFile(`./${this.fullName()}`, this.content, (error): void => {
-      if (error) {
-        // TODO: What happens when the user doesn't have write permissions to the current directory? Should probably handle this as it's own error case
-        /* eslint-disable no-console */
-        console.error(error);
-      }
-    });
+    fs.writeFileSync(this.filePath(), this.content);
   }
 
   fullName(): string {
     return `${this.fileName}.${this.extension}`;
   }
+
+  private filePath(): string {
+    return `./${this.fullName()}`;
+  }
+
 }
