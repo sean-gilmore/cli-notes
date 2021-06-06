@@ -6,8 +6,12 @@ export default class Today {
   minute: string;
 
   constructor(time?: string) {
-    const timeString = time ?? '';
-    const date = new Date(timeString);
+    let date;
+    if (time) {
+      date = new Date(time);
+    } else {
+      date = new Date();
+    }
 
     this.day = ("0" + date.getDate()).slice(-2);
 
@@ -20,11 +24,12 @@ export default class Today {
     this.minute = date.getMinutes().toString();
   }
 
-  date() {
-    return `${this.year}/${this.month}/${this.day}`;
+  date(args?: { separator?: string }): string {
+    const separator = (args && args.separator) ?? '/';
+    return `${this.year}${separator}${this.month}${separator}${this.day}`;
   }
 
-  time() {
+  time(): string {
     return `${this.hour}:${this.minute}`;
   }
 }
