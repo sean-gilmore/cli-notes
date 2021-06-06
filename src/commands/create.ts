@@ -3,18 +3,21 @@ import Note from '../services/Note';
 import Today from '../services/Today';
 
 export default class Create extends Command {
+  static availableTypes = {
+    meeting: 'meeting',
+    todo: 'todo',
+    note: 'note'
+  };
+
   static args = [
-    { name: 'type' }
+    { name: 'type', required: false, default: 'type', options: Object.values(Create.availableTypes) },
+    { name: 'title', required: false, default: 'note' }
   ];
 
   static flags = {
     project: flags.boolean({char: 'p'}),
   }
 
-  static availableTypes = {
-    meeting: 'meeting',
-    todo: 'todo',
-  };
 
   static description = 'Creates a new note';
 
@@ -42,14 +45,16 @@ new file created!
 
   meeting(project: boolean, title: string): void {
     const today = new Today();
-    const content = `# Meeting on ${today.date()} at ${today.time()}
+    const content = `# Meeting on ${today.date({separator: '/'})} at ${today.time()}
 
 ## Attendees
 
 ## Notes`;
 
+    const formattedTitle = `${today.date({separator: '-'})}_${title}`;
+
     const note = new Note({
-      fileName: 'test', extension: 'md', content: content
+      fileName: formattedTitle, extension: 'md', content: content
     });
 
     note.write();
@@ -64,6 +69,5 @@ new file created!
 
   default(project: boolean, title: string): void {
     this.log('default notes');
-    // fs.write('./test');
   }
 }
