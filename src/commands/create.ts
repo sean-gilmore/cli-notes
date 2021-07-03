@@ -11,7 +11,7 @@ export default class Create extends Command {
 
   static args = [
     { name: 'type', required: false, default: 'type', options: Object.values(Create.availableTypes) },
-    { name: 'title', required: false, default: 'note' }
+    { name: 'title', required: false, default: '' }
   ];
 
   static flags = {
@@ -31,7 +31,7 @@ new file created!
     const { args, flags } = this.parse(Create);
     const project = flags.project;
     const type = args.type;
-    const title = args.title;
+    const title = args.title ? args.title : this.defaultNoteTitle(type);
 
     switch (type) {
       case Create.availableTypes.meeting:
@@ -49,7 +49,11 @@ new file created!
 
 ## Attendees
 
-## Notes`;
+-
+
+## Notes
+
+-`;
 
     const formattedTitle = `${today.date({separator: '-'})}_${title}`;
 
@@ -63,11 +67,44 @@ new file created!
   }
 
   todo(project: boolean, title: string): void {
+    const today = new Today();
+    const formattedTitle = `${today.date({separator: '-'})}_${title}`;
+    const content = `# TODO
 
-    this.log('todo notes');
+-
+    `;
+
+    const note = new Note({
+      fileName: formattedTitle, extension: 'md', content: content
+    });
+
+    note.write();
+
+    this.log(`New meeting note created: ${note.fullName()}`);
   }
 
   default(project: boolean, title: string): void {
-    this.log('default notes');
+    const today = new Today();
+    const formattedTitle = `${today.date({separator: '-'})}_${title}`;
+    const content = `# ${title}`;
+
+    const note = new Note({
+      fileName: formattedTitle, extension: 'md', content: content
+    });
+
+    note.write();
+
+    this.log(`New meeting note created: ${note.fullName()}`);
+  }
+
+  private defaultNoteTitle(type: string): string {
+    switch (type) {
+      case Create.availableTypes.meeting:
+        return 'meeting';
+      case Create.availableTypes.todo:
+        return 'todo';
+      default:
+        return 'note';
+    }
   }
 }
