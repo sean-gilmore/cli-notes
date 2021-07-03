@@ -1,11 +1,12 @@
 import { expect, test } from "@oclif/test";
 
-describe("hello", () => {
+describe("create", () => {
   test
     .stdout()
-    .command(["hello"])
-    .it("runs hello", (ctx) => {
-      expect(ctx.stdout).to.contain("hello world");
+    .command(["create", "meeting", "test"])
+    .it("creates a meeting note", (ctx) => {
+      // console.log(ctx);
+      expect(ctx.stdout).to.contain("New meeting note created");
     });
 
   test

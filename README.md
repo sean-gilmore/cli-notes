@@ -1,19 +1,23 @@
-cli-notes
-=========
+# cli-notes
 
-notes manager
+A command line application for creating plain text notes
 
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
 [![Version](https://img.shields.io/npm/v/cli-notes.svg)](https://npmjs.org/package/cli-notes)
 [![Downloads/week](https://img.shields.io/npm/dw/cli-notes.svg)](https://npmjs.org/package/cli-notes)
 [![License](https://img.shields.io/npm/l/cli-notes.svg)](https://github.com/sean-gilmore/cli-notes/blob/master/package.json)
 
-<!-- toc -->
-* [Usage](#usage)
-* [Commands](#commands)
-<!-- tocstop -->
+- [cli-notes](#cli-notes)
+- [Usage](#usage)
+- [Commands](#commands)
+  - [`notes hello [FILE]`](#notes-hello-file)
+  - [`notes help [COMMAND]`](#notes-help-command)
+  - [`notes create [COMMAND]`](#notes-create-command)
+- [Development Instructions](#development-instructions)
+  - [Running the CLI in development mode](#running-the-cli-in-development-mode)
+
 # Usage
-<!-- usage -->
+
 ```sh-session
 $ npm install -g cli-notes
 $ notes COMMAND
@@ -25,15 +29,15 @@ USAGE
   $ notes COMMAND
 ...
 ```
-<!-- usagestop -->
 # Commands
-<!-- commands -->
+
 * [`notes hello [FILE]`](#notes-hello-file)
 * [`notes help [COMMAND]`](#notes-help-command)
+* [`notes create [COMMAND]`](#notes-create-command)
 
 ## `notes hello [FILE]`
 
-describe the command here
+Describe the command here
 
 ```
 USAGE
@@ -53,7 +57,7 @@ _See code: [src/commands/hello.ts](https://github.com/sean-gilmore/cli-notes/blo
 
 ## `notes help [COMMAND]`
 
-display help for notes
+Display help for notes
 
 ```
 USAGE
@@ -67,4 +71,32 @@ OPTIONS
 ```
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v3.2.2/src/commands/help.ts)_
-<!-- commandsstop -->
+
+## `notes create [COMMAND]`
+
+Create a new note
+
+```
+USAGE
+  $ notes create [TYPE]
+
+ARGUMENTS
+  COMMAND  Type of note to create. Accepts "meeting", "todo", or leave blank
+
+OPTIONS
+  --project
+```
+
+-----------------
+
+# Development Instructions
+
+## Running the CLI in development mode
+
+You can run the CLI while developing, as follows:
+
+```sh-session
+$ ./bin/run help
+```
+
+This will run the help command directly, without needing to re-build and re-install the package.
