@@ -19,7 +19,7 @@ export default class Config {
     }
   }
 
-  loadSettings(): Settings {
+  private loadSettings(): Settings {
     const configBuffer = fs.readFileSync(Config.noteConfig);
     console.log(configBuffer);
     return this.settings;
