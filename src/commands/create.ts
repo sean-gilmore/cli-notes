@@ -18,7 +18,6 @@ export default class Create extends Command {
     project: flags.boolean({char: 'p'}),
   }
 
-
   static description = 'Creates a new note';
 
   static examples = [
@@ -80,7 +79,7 @@ new file created!
 
     note.write();
 
-    this.log(`New meeting note created: ${note.fullName()}`);
+    this.log(`New todo note created: ${note.fullName()}`);
   }
 
   default(project: boolean, title: string): void {
@@ -94,7 +93,7 @@ new file created!
 
     note.write();
 
-    this.log(`New meeting note created: ${note.fullName()}`);
+    this.log(`New note created: ${note.fullName()}`);
   }
 
   private defaultNoteTitle(type: string): string {
