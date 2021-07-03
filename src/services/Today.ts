@@ -1,3 +1,6 @@
+/**
+ * Enables outputting the time in the desired format
+ */
 export default class Today {
   day: string;
   month: string;

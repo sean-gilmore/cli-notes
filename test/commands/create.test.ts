@@ -5,8 +5,21 @@ describe("create", () => {
     .stdout()
     .command(["create", "meeting", "test"])
     .it("creates a meeting note", (ctx) => {
-      // console.log(ctx);
       expect(ctx.stdout).to.contain("New meeting note created");
+    });
+
+  test
+    .stdout()
+    .command(["create", "todo", "test"])
+    .it("creates a todo note", (ctx) => {
+      expect(ctx.stdout).to.contain("New todo note created");
+    });
+
+  test
+    .stdout()
+    .command(["create"])
+    .it("creates a new note", (ctx) => {
+      expect(ctx.stdout).to.contain("New note created");
     });
 
   test
