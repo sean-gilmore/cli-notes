@@ -12,7 +12,6 @@ export default class Config {
 
   settings: Settings | null = null;
 
-
   static configPath(): string {
     const homeDir = process.env.HOME;
     return `${homeDir}/${Config.configFileName}`;
@@ -30,8 +29,14 @@ export default class Config {
 
   // Load settings from saved JSON file
   private loadSettings(): Settings | null {
-    const configBuffer = fs.readFileSync(Config.configPath());
-    this.settings = JSON.parse(configBuffer.toString());
+    try {
+      const configBuffer = fs.readFileSync(Config.configPath());
+
+      this.settings = JSON.parse(configBuffer.toString());
+    } catch(e) {
+      console.error(e);
+    }
+
     return this.settings;
   }
 
