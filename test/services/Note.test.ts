@@ -5,12 +5,12 @@ import * as fs from 'fs';
 describe("Note", () => {
   test.it('creates the test file', () => {
     after(() => {
-      fs.unlinkSync('./test-file.txt');
+      fs.unlinkSync('./test/test-file.txt');
     });
 
-    process.env.HOME = '.';
+    process.env.HOME = './test';
     const note = new Note({fileName: 'test-file', extension: 'txt', content: 'Test'});
     note.write();
-    expect(fs.existsSync('./test-file.txt')).to.eq(true);
+    expect(fs.existsSync('./test/test-file.txt')).to.eq(true);
   });
 });

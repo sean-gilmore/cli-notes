@@ -1,6 +1,11 @@
 import { expect, test } from "@oclif/test";
+import * as fs from 'fs';
 
 describe("create", () => {
+  before(() => {
+    process.env.HOME = './test';
+  });
+
   test
     .stdout()
     .command(["create", "meeting", "test"])
@@ -22,10 +27,12 @@ describe("create", () => {
       expect(ctx.stdout).to.contain("New note created");
     });
 
-  test
-    .stdout()
-    .command(["hello", "--name", "jeff"])
-    .it("runs hello --name jeff", (ctx) => {
-      expect(ctx.stdout).to.contain("hello jeff");
+  after(() => {
+    const dirCont = fs.readdirSync('./test/');
+    console.log(dirCont);
+    const files = dirCont.filter((file) => file.match(/.md/ig));
+    files.forEach((file) => {
+      fs.unlinkSync(`./test/${file}`);
     });
+  });
 });

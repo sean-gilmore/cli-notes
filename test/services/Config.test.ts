@@ -5,12 +5,12 @@ import * as fs from 'fs';
 describe("Config", () => {
   test.it('creates the config file', () => {
     after(() => {
-      fs.unlinkSync('./.note-config.json');
+      fs.unlinkSync('./test/config/.note-config.json');
     });
 
-    process.env.HOME = '.';
+    process.env.HOME = './test/config';
     Config.writeSettings();
 
-    expect(fs.existsSync('./.note-config.json')).to.eq(true);
+    expect(fs.existsSync('./test/config/.note-config.json')).to.eq(true);
   });
 });
