@@ -54,7 +54,7 @@ new file created!
 
 -`;
 
-    const formattedTitle = `${today.date({separator: '-'})}_${title}`;
+    const formattedTitle = `${today.date({separator: '-'})}_meeting-${title}`;
 
     const note = new Note({
       fileName: formattedTitle, extension: 'md', content: content
@@ -67,7 +67,7 @@ new file created!
 
   todo(project: boolean, title: string): void {
     const today = new Today();
-    const formattedTitle = `${today.date({separator: '-'})}_${title}`;
+    const formattedTitle = `${today.date({separator: '-'})}_todo-${title}`;
     const content = `# TODO
 
 -
