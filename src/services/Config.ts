@@ -7,7 +7,7 @@ interface Settings {
 export default class Config {
   static configFileName = '.note-config.json';
   static defaultSettings: Settings = {
-    collectionLocation: './'
+    collectionLocation: '.'
   }
 
   settings: Settings | null = null;
@@ -36,7 +36,7 @@ export default class Config {
   }
 
   static writeSettings(): Settings {
-    const location = `${process.env.HOME}/Notes`;
+    const location = `${process.env.HOME}`;
     const settings = {
       collectionLocation: location
     };

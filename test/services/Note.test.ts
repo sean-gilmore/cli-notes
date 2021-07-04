@@ -8,6 +8,7 @@ describe("Note", () => {
       fs.unlinkSync('./test-file.txt');
     });
 
+    process.env.HOME = '.';
     const note = new Note({fileName: 'test-file', extension: 'txt', content: 'Test'});
     note.write();
     expect(fs.existsSync('./test-file.txt')).to.eq(true);
