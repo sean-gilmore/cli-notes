@@ -1,10 +1,5 @@
 # TODO
 
-## Config/Init
-
-- Ensure that config file wont be overwritten if one exists
-  - Create test for this functionality
-
 ## Create command
 
 - Swap method of setting filename, to use a follow up prompt to set it
