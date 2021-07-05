@@ -29,7 +29,6 @@ describe("create", () => {
 
   after(() => {
     const dirCont = fs.readdirSync('./test/');
-    console.log(dirCont);
     const files = dirCont.filter((file) => file.match(/.md/ig));
     files.forEach((file) => {
       fs.unlinkSync(`./test/${file}`);

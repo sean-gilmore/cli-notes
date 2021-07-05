@@ -1,8 +1,5 @@
 import * as fs from 'fs';
-
-interface Settings {
-  collectionLocation: string;
-}
+import Settings from '../types/Settings';
 
 export default class Config {
   static configFileName = '.note-config.json';
@@ -40,11 +37,16 @@ export default class Config {
     return this.settings;
   }
 
-  static writeSettings(): Settings {
+  static writeSettings(): Settings|boolean {
     const location = `${process.env.HOME}`;
     const settings = {
       collectionLocation: location
     };
+    const fileExists = fs.existsSync(Config.configPath());
+
+    if (fileExists) {
+      return false;
+    }
 
     fs.writeFileSync(Config.configPath(), JSON.stringify(settings));
 
