@@ -1,4 +1,5 @@
 import * as fs from 'fs';
+import Config from './Config';
 
 type Arguments = {
   fileName: string;
@@ -29,7 +30,9 @@ export default class Note {
   }
 
   private filePath(): string {
-    return `./${this.fullName()}`;
-  }
+    const config = new Config;
+    const settings = config.getSettings();
 
+    return `${settings.collectionLocation}/${this.fullName()}`;
+  }
 }

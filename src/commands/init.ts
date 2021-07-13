@@ -1,8 +1,15 @@
 import { Command } from '@oclif/command';
+import Config from '../services/Config';
+import Settings from '../types/Settings';
 
 export default class Init extends Command {
   async run(): Promise<void> {
-    // 1. Create a config file at ~
-    // 2. Store the dir that this command was run in, within that config file
+    const settings = Config.writeSettings() as Settings;
+
+    if (settings && settings.collectionLocation) {
+      this.log(`Your config file has been added at: ${settings.collectionLocation}`);
+    } else {
+      this.log('You already have a config file at that location!');
+    }
   }
 }
