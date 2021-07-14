@@ -28,6 +28,7 @@ export default class Config {
   private loadSettings(): Settings | null {
     try {
       const configBuffer = fs.readFileSync(Config.configPath());
+      console.log(Config.configPath());
 
       this.settings = JSON.parse(configBuffer.toString());
     } catch(e) {
