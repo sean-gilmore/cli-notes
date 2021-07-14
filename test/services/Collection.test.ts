@@ -7,6 +7,7 @@ describe("Collection", () => {
   });
 
   test.it("returns the test directory structure", () => {
+    process.env.HOME = './test';
     const collectionTree = Collection.getTree();
     const testTree = {
       projects: [

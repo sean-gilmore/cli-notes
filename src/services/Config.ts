@@ -11,6 +11,7 @@ export default class Config {
 
   static configPath(): string {
     const homeDir = process.env.HOME;
+    console.log(`${homeDir}/${Config.configFileName}`);
     return `${homeDir}/${Config.configFileName}`;
   }
 
