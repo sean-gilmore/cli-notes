@@ -1,5 +1,5 @@
 import { expect, test } from "@oclif/test";
-import Config from '../../src/services/Config';
+import Setup from '../../src/services/Setup';
 import * as fs from 'fs';
 
 describe("Config", () => {
@@ -9,7 +9,7 @@ describe("Config", () => {
     });
 
     process.env.HOME = './test/config';
-    Config.writeSettings();
+    Setup.writeSettings();
 
     expect(fs.existsSync('./test/config/.note-config.json')).to.eq(true);
   });

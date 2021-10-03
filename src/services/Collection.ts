@@ -11,7 +11,9 @@ interface TreeLeaf {
   projects?: Array<TreeLeaf>;
 }
 
-/** */
+/**
+ * A Collection is a group of projects, collected under the root directory specified in a config file
+*/
 export default class Collection {
   public static getTree(): Tree {
 
@@ -21,6 +23,9 @@ export default class Collection {
     console.log(settings.collectionLocation)
 
     const result = Collection.getDirContents(settings.collectionLocation);
+
+
+    console.log(result);
 
     // const tree = Collection.topOfTree();
 
@@ -42,6 +47,8 @@ export default class Collection {
       const fullPath = path + '/' + subPath;
       if (fs.lstatSync(fullPath).isDirectory()) {
         return Collection.getDirContents(fullPath);
+      } else {
+
       }
 
     });
