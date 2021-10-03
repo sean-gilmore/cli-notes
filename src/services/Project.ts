@@ -8,9 +8,9 @@ export default class Project {
     this.path = args.path
   }
 
-  public getTree(): any {
-    return {
-      name: this.path
-    }
-  }
+  // public getTree(): Tree {
+  //   return {
+  //     name: this.path
+  //   }
+  // }
 }

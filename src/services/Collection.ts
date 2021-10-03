@@ -1,14 +1,9 @@
 import * as fs from 'fs';
 import Config from './Config';
-import Project from './Project';
 
 interface Tree {
-  projects: Array<TreeLeaf>;
-}
-
-interface TreeLeaf {
-  name: string;
-  projects?: Array<TreeLeaf>;
+  name: string
+  projects: Array<Tree>;
 }
 
 /**
@@ -16,41 +11,22 @@ interface TreeLeaf {
 */
 export default class Collection {
   public static getTree(): Tree {
-
     const config = new Config;
-    console.log(Config.configPath())
     const settings = config.getSettings();
-    console.log(settings.collectionLocation)
-
-    const result = Collection.getDirContents(settings.collectionLocation);
-
-
-    console.log(result);
-
-    // const tree = Collection.topOfTree();
-
-    // const projects = [];
-
-    // topOfTree.forEach((path: string) => {
-    //   if (fs.lstatSync(path).isDirectory()) {
-    //     const project = new Project({path})
-    //     projects.push(project.getTree());
-    //   }
-    // });
+    const result = Collection.recursiveTree(settings.collectionLocation);
 
     return result;
   }
 
-  public static getDirContents(path: string): any {
+  public static recursiveTree(path: string): Tree {
+    const projects = [] as Array<Tree>;
 
-    const projects: any = fs.readdirSync(path).map((subPath: string) => {
+    fs.readdirSync(path).forEach((subPath: string) => {
       const fullPath = path + '/' + subPath;
+
       if (fs.lstatSync(fullPath).isDirectory()) {
-        return Collection.getDirContents(fullPath);
-      } else {
-
+        projects.push(Collection.recursiveTree(fullPath));
       }
-
     });
 
     return {
@@ -58,18 +34,4 @@ export default class Collection {
       projects: projects
     }
   }
-
-  // public static topOfTree(): Array<string> {
-  //   const config = new Config;
-  //   console.log(Config.configPath())
-  //   const settings = config.getSettings();
-  //   console.log(settings.collectionLocation)
-  //   const top = fs.readdirSync(settings.collectionLocation);
-
-  //   return top;
-  // }
-
-  //   private static getDirContents(): {
-
-  //   }
 }
