@@ -1,16 +1,12 @@
 import * as fs from 'fs';
 import Config from './Config';
-
-interface Tree {
-  name: string
-  projects: Array<Tree>;
-}
+import Project from './Project';
 
 /**
  * A Collection is a group of projects, collected under the root directory specified in a config file
 */
 export default class Collection {
-  public static getTree(): Tree {
+  public static getTree(): Project {
     const config = new Config;
     const settings = config.getSettings();
     const result = Collection.recursiveTree(settings.collectionLocation);
@@ -18,8 +14,8 @@ export default class Collection {
     return result;
   }
 
-  public static recursiveTree(path: string): Tree {
-    const projects = [] as Array<Tree>;
+  public static recursiveTree(path: string): Project {
+    const projects = [] as Array<Project>;
 
     fs.readdirSync(path).forEach((subPath: string) => {
       const fullPath = path + '/' + subPath;
@@ -29,9 +25,6 @@ export default class Collection {
       }
     });
 
-    return {
-      name: path,
-      projects: projects
-    }
+    return new Project({path: path, projects: projects})
   }
 }
