@@ -3,14 +3,11 @@
  */
 export default class Project {
   path: string;
+  name = '';
+  projects: Array<Project>;
 
-  constructor(args: {path: string}) {
-    this.path = args.path
+  constructor(args: {path: string, projects: Array<Project>}) {
+    this.path = args.path;
+    this.projects = args.projects;
   }
-
-  // public getTree(): Tree {
-  //   return {
-  //     name: this.path
-  //   }
-  // }
 }
