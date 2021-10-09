@@ -1,6 +1,9 @@
 import * as fs from 'fs';
 import Settings from '../types/Settings';
 
+/**
+ * A Config is a file that contains details about where a project lives
+ */
 export default class Config {
   static configFileName = '.note-config.json';
   static defaultSettings: Settings = {
@@ -9,6 +12,7 @@ export default class Config {
 
   settings: Settings | null = null;
 
+  // Get the path to the config file
   static configPath(): string {
     const homeDir = process.env.HOME;
     return `${homeDir}/${Config.configFileName}`;
@@ -37,19 +41,4 @@ export default class Config {
     return this.settings;
   }
 
-  static writeSettings(): Settings|boolean {
-    const location = `${process.env.HOME}`;
-    const settings = {
-      collectionLocation: location
-    };
-    const fileExists = fs.existsSync(Config.configPath());
-
-    if (fileExists) {
-      return false;
-    }
-
-    fs.writeFileSync(Config.configPath(), JSON.stringify(settings));
-
-    return settings;
-  }
 }

@@ -3,14 +3,14 @@ import * as fs from 'fs';
 
 describe("init", () => {
   before(() => {
-    process.env.HOME = './test/config';
+    process.env.HOME = './test-dir/config';
   });
 
   test
     .stdout()
     .command(["init"])
     .it("creates a config file", (ctx) => {
-      expect(ctx.stdout).to.contain("Your config file has been added at: ./test/config");
+      expect(ctx.stdout).to.contain("Your config file has been added at: ./test-dir/config");
     });
 
   test
@@ -20,6 +20,6 @@ describe("init", () => {
     });
 
   after(() => {
-    fs.unlinkSync('./test/config/.note-config.json');
+    fs.unlinkSync('./test-dir/config/.note-config.json');
   });
 });
