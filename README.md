@@ -100,3 +100,6 @@ $ ./bin/run help
 ```
 
 This will run the help command directly, without needing to re-build and re-install the package.
+
+-----------------
+
