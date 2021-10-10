@@ -12,12 +12,22 @@ If you find yourself agreeing with this list of issues, then this project is for
 
 ## Installing
 
+Run:
 
+```
+npm install -g cli-notes
+```
 
+or:
+
+```
+yarn global add cli-notes
+```
 
 ## Commands
 
 The following commands are available to you:
 
+- Help
 - [Create](./commands/create.md)
 
