@@ -1,4 +1,4 @@
-name: CI
+name: Test
 
 # Controls when the workflow will run
 on:
@@ -42,6 +42,6 @@ jobs:
 
       - name: Test
         run: yarn test
-         
+
       - name: Link
         run: yarn posttest
