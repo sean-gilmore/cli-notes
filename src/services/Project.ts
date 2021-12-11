@@ -7,6 +7,7 @@ export default class Project {
   projects: Array<Project>;
 
   constructor(args: {path: string, projects: Array<Project>}) {
+    this.name = args.path;
     this.path = args.path;
     this.projects = args.projects;
   }

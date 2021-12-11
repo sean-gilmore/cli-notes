@@ -1,6 +1,8 @@
 import { Command, flags } from '@oclif/command';
+import * as inquirer from 'inquirer';
 import Note from '../services/Note';
 import Today from '../services/Today';
+import Collection from '../services/Collection';
 
 export default class Create extends Command {
   static availableTypes = {
@@ -15,7 +17,7 @@ export default class Create extends Command {
   ];
 
   static flags = {
-    project: flags.boolean({char: 'p'}),
+    project: flags.boolean({ char: 'p' }),
   }
 
   static description = 'Creates a new note';
@@ -28,23 +30,55 @@ new file created!
 
   async run(): Promise<void> {
     const { args, flags } = this.parse(Create);
-    const project = flags.project;
+    let project = flags.project;
     const type = args.type;
     const title = args.title ? args.title : this.defaultNoteTitle(type);
 
-    switch (type) {
-      case Create.availableTypes.meeting:
-        return this.meeting(project, title);
-      case Create.availableTypes.todo:
-        return this.todo(project, title);
-      default:
-        return this.default(project, title);
+
+    const tree = Collection.getTree();
+
+    console.log(tree);
+    let foundDir = false;
+
+    let targetDir = tree;
+
+    if (!project) {
+      while (!foundDir) {
+        console.log(targetDir);
+        const responses: any = await inquirer.prompt([{
+          name: 'project',
+          message: 'select a Project',
+          type: 'list',
+          choices: [{ ...targetDir, name: `${tree.name}`, currentDir: true }, ...targetDir.projects],
+        }]);
+
+        if (responses.project === targetDir.name) {
+          project = responses.project;
+          foundDir = true;
+        } else {
+
+          targetDir = responses.project;
+        }
+      }
+      // project = responses.stage
     }
+
+    this.log(`the stage is: ${project}`)
+
+
+    // switch (type) {
+    //   case Create.availableTypes.meeting:
+    //     return this.meeting(project, title);
+    //   case Create.availableTypes.todo:
+    //     return this.todo(project, title);
+    //   default:
+    //     return this.default(project, title);
+    // }
   }
 
   meeting(project: boolean, title: string): void {
     const today = new Today();
-    const content = `# Meeting on ${today.date({separator: '/'})} at ${today.time()}
+    const content = `# Meeting on ${today.date({ separator: '/' })} at ${today.time()}
 
 ## Attendees
 
@@ -54,7 +88,7 @@ new file created!
 
 -`;
 
-    const formattedTitle = `${today.date({separator: '-'})}_meeting-${title}`;
+    const formattedTitle = `${today.date({ separator: '-' })}_meeting-${title}`;
 
     const note = new Note({
       fileName: formattedTitle, extension: 'md', content: content
@@ -62,12 +96,13 @@ new file created!
 
     note.write();
 
-    this.log(`New meeting note created: ${note.fullName()}`);
+    // this.log(`New meeting note created: ${note.fullName()}`);
+    // this.log()
   }
 
   todo(project: boolean, title: string): void {
     const today = new Today();
-    const formattedTitle = `${today.date({separator: '-'})}_todo-${title}`;
+    const formattedTitle = `${today.date({ separator: '-' })}_todo-${title}`;
     const content = `# TODO
 
 -
@@ -84,7 +119,7 @@ new file created!
 
   default(project: boolean, title: string): void {
     const today = new Today();
-    const formattedTitle = `${today.date({separator: '-'})}_${title}`;
+    const formattedTitle = `${today.date({ separator: '-' })}_${title}`;
     const content = `# ${title}`;
 
     const note = new Note({
