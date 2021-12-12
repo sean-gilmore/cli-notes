@@ -9,7 +9,7 @@ describe("Note", () => {
       process.env.HOME = './test-dir';
     });
 
-    const note = new Note({ fileName: 'test-file', extension: 'txt', content: 'Test' });
+    const note = new Note({ fileName: 'test-file', extension: 'txt', content: 'Test', filePath: './test-dir/' });
     note.write();
     expect(fs.existsSync('./test-dir/test-file.txt')).to.eq(true);
   });

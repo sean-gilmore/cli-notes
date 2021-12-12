@@ -3,6 +3,7 @@ import * as inquirer from 'inquirer';
 import Note from '../services/Note';
 import Today from '../services/Today';
 import Collection from '../services/Collection';
+import Project from '../services/Project';
 
 export default class Create extends Command {
   static availableTypes = {
@@ -17,7 +18,7 @@ export default class Create extends Command {
   ];
 
   static flags = {
-    project: flags.boolean({ char: 'p' }),
+    project: flags.string({ char: 'p' }),
   }
 
   static description = 'Creates a new note';
@@ -38,7 +39,7 @@ new file created!
     const tree = Collection.getTree();
 
     console.log(tree);
-    let foundDir = false;
+    let foundDir;
 
     let targetDir = tree;
 
@@ -55,15 +56,11 @@ new file created!
           project = responses.project;
           foundDir = true;
         } else {
-          targetDir = targetDir.projects.find((p) => p.name === responses.project );
-          // targetDir = responses.project;
+          foundDir = targetDir.projects.find((p) => p.name === responses.project );
+          targetDir = foundDir !== undefined ? foundDir : targetDir;
         }
       }
-      // project = responses.stage
     }
-
-    // this.log(`the stage is: ${project}`)
-
 
     switch (type) {
       case Create.availableTypes.meeting:
@@ -75,7 +72,7 @@ new file created!
     }
   }
 
-  meeting(project: boolean, title: string): void {
+  meeting(project: string|undefined, title: string): void {
     const today = new Today();
     const content = `# Meeting on ${today.date({ separator: '/' })} at ${today.time()}
 
@@ -99,7 +96,7 @@ new file created!
     // this.log()
   }
 
-  todo(project: boolean, title: string): void {
+  todo(project: string|undefined, title: string): void {
     const today = new Today();
     const formattedTitle = `${today.date({ separator: '-' })}_todo-${title}`;
     const content = `# TODO
@@ -108,7 +105,7 @@ new file created!
     `;
 
     const note = new Note({
-      fileName: formattedTitle, extension: 'md', content: content
+      fileName: formattedTitle, extension: 'md', content: content, filePath: project
     });
 
     note.write();
@@ -116,13 +113,13 @@ new file created!
     this.log(`New todo note created: ${note.fullName()}`);
   }
 
-  default(project: boolean, title: string): void {
+  default(project: string|undefined, title: string): void {
     const today = new Today();
     const formattedTitle = `${today.date({ separator: '-' })}_${title}`;
     const content = `# ${title}`;
 
     const note = new Note({
-      fileName: formattedTitle, extension: 'md', content: content
+      fileName: formattedTitle, extension: 'md', content: content, filePath: project
     });
 
     note.write();

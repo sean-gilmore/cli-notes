@@ -1,11 +1,10 @@
 import * as fs from 'fs';
-import Config from './Config';
 
 type Arguments = {
   fileName: string;
   extension: string;
   content?: string;
-  filePath: string;
+  filePath: string|undefined;
 }
 
 /**
@@ -15,7 +14,7 @@ export default class Note {
   fileName: string;
   extension: string;
   content?: string;
-  filePath: string;
+  filePath: string | undefined;
 
   constructor(args: Arguments) {
     this.fileName = args.fileName;
@@ -25,7 +24,10 @@ export default class Note {
   }
 
   write(): void {
-    fs.writeFileSync(this.fullPath(), this.content);
+
+    if (this.fileName && this.filePath) {
+      fs.writeFileSync(this.fullPath(), this.content);
+    }
   }
 
   fullName(): string {
