@@ -8,7 +8,7 @@ describe("create", () => {
 
   test
     .stdout()
-    .command(["create", "meeting", "test"])
+    .command(["create", "meeting", "test", "--project", "development"])
     .it("creates a meeting note", (ctx) => {
       expect(ctx.stdout).to.contain("New meeting note created");
     });

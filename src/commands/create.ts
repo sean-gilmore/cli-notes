@@ -1,6 +1,9 @@
 import { Command, flags } from '@oclif/command';
+import * as inquirer from 'inquirer';
 import Note from '../services/Note';
 import Today from '../services/Today';
+import Collection from '../services/Collection';
+import Project from '../services/Project';
 
 export default class Create extends Command {
   static availableTypes = {
@@ -15,7 +18,7 @@ export default class Create extends Command {
   ];
 
   static flags = {
-    project: flags.boolean({char: 'p'}),
+    project: flags.string({ char: 'p' }),
   }
 
   static description = 'Creates a new note';
@@ -28,9 +31,36 @@ new file created!
 
   async run(): Promise<void> {
     const { args, flags } = this.parse(Create);
-    const project = flags.project;
+    let project = flags.project;
     const type = args.type;
     const title = args.title ? args.title : this.defaultNoteTitle(type);
+
+
+    const tree = Collection.getTree();
+
+    console.log(tree);
+    let foundDir;
+
+    let targetDir = tree;
+
+    if (!project) {
+      while (!foundDir) {
+        const responses: any = await inquirer.prompt([{
+          name: 'project',
+          message: 'select a Project',
+          type: 'list',
+          choices: [{ ...targetDir, name: `${targetDir.name}`, currentDir: true }, ...targetDir.projects],
+        }]);
+
+        if (responses.project === targetDir.name) {
+          project = responses.project;
+          foundDir = true;
+        } else {
+          foundDir = targetDir.projects.find((p) => p.name === responses.project );
+          targetDir = foundDir !== undefined ? foundDir : targetDir;
+        }
+      }
+    }
 
     switch (type) {
       case Create.availableTypes.meeting:
@@ -42,9 +72,9 @@ new file created!
     }
   }
 
-  meeting(project: boolean, title: string): void {
+  meeting(project: string|undefined, title: string): void {
     const today = new Today();
-    const content = `# Meeting on ${today.date({separator: '/'})} at ${today.time()}
+    const content = `# Meeting on ${today.date({ separator: '/' })} at ${today.time()}
 
 ## Attendees
 
@@ -54,27 +84,28 @@ new file created!
 
 -`;
 
-    const formattedTitle = `${today.date({separator: '-'})}_meeting-${title}`;
+    const formattedTitle = `${today.date({ separator: '-' })}_meeting-${title}`;
 
     const note = new Note({
-      fileName: formattedTitle, extension: 'md', content: content
+      fileName: formattedTitle, extension: 'md', content: content, filePath: project
     });
 
     note.write();
 
-    this.log(`New meeting note created: ${note.fullName()}`);
+    // this.log(`New meeting note created: ${note.fullName()}`);
+    // this.log()
   }
 
-  todo(project: boolean, title: string): void {
+  todo(project: string|undefined, title: string): void {
     const today = new Today();
-    const formattedTitle = `${today.date({separator: '-'})}_todo-${title}`;
+    const formattedTitle = `${today.date({ separator: '-' })}_todo-${title}`;
     const content = `# TODO
 
 -
     `;
 
     const note = new Note({
-      fileName: formattedTitle, extension: 'md', content: content
+      fileName: formattedTitle, extension: 'md', content: content, filePath: project
     });
 
     note.write();
@@ -82,13 +113,13 @@ new file created!
     this.log(`New todo note created: ${note.fullName()}`);
   }
 
-  default(project: boolean, title: string): void {
+  default(project: string|undefined, title: string): void {
     const today = new Today();
-    const formattedTitle = `${today.date({separator: '-'})}_${title}`;
+    const formattedTitle = `${today.date({ separator: '-' })}_${title}`;
     const content = `# ${title}`;
 
     const note = new Note({
-      fileName: formattedTitle, extension: 'md', content: content
+      fileName: formattedTitle, extension: 'md', content: content, filePath: project
     });
 
     note.write();
