@@ -44,36 +44,35 @@ new file created!
 
     if (!project) {
       while (!foundDir) {
-        console.log(targetDir);
         const responses: any = await inquirer.prompt([{
           name: 'project',
           message: 'select a Project',
           type: 'list',
-          choices: [{ ...targetDir, name: `${tree.name}`, currentDir: true }, ...targetDir.projects],
+          choices: [{ ...targetDir, name: `${targetDir.name}`, currentDir: true }, ...targetDir.projects],
         }]);
 
         if (responses.project === targetDir.name) {
           project = responses.project;
           foundDir = true;
         } else {
-
-          targetDir = responses.project;
+          targetDir = targetDir.projects.find((p) => p.name === responses.project );
+          // targetDir = responses.project;
         }
       }
       // project = responses.stage
     }
 
-    this.log(`the stage is: ${project}`)
+    // this.log(`the stage is: ${project}`)
 
 
-    // switch (type) {
-    //   case Create.availableTypes.meeting:
-    //     return this.meeting(project, title);
-    //   case Create.availableTypes.todo:
-    //     return this.todo(project, title);
-    //   default:
-    //     return this.default(project, title);
-    // }
+    switch (type) {
+      case Create.availableTypes.meeting:
+        return this.meeting(project, title);
+      case Create.availableTypes.todo:
+        return this.todo(project, title);
+      default:
+        return this.default(project, title);
+    }
   }
 
   meeting(project: boolean, title: string): void {
@@ -91,7 +90,7 @@ new file created!
     const formattedTitle = `${today.date({ separator: '-' })}_meeting-${title}`;
 
     const note = new Note({
-      fileName: formattedTitle, extension: 'md', content: content
+      fileName: formattedTitle, extension: 'md', content: content, filePath: project
     });
 
     note.write();
